@@ -1,25 +1,59 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <title>Example</title>
 
-      <script src="http://localhost:8080/webpack-dev-server.js"></script>
-      <script src="vendor.bundle.js" type="text/javascript" charset="utf-8" defer></script>
-      <script src="bundle.js" type="text/javascript" charset="utf-8" defer></script>
-    </head>
-    <body>
-      <h1>Example</h1>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8">.col-md-8</div>
-          <div class="col-md-4">.col-md-4</div>
-        </div>
+<head>
+  <title>Example</title>
 
-        <div class="article">
-          <div class="main-content"><p>.col-md-8</p></div>
-          <div class="right-sidebar"><p>.col-md-4</p></div>
-        </div>
+  <script src="http://localhost:8080/webpack-dev-server.js"></script>
+  <script src="vendor.bundle.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="bundle.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+
+
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Project name</a>
       </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </nav>
 
-    </body>
+
+<div class="game">
+  <div class="board">
+    <div class="square top left"></div>
+    <div class="square top"></div>
+    <div class="square top right"></div>
+    <div class="square left"></div>
+    <div class="square"></div>
+    <div class="square right"></div>
+    <div class="square bottom left"></div>
+    <div class="square bottom"></div>
+    <div class="square bottom right"></div>
+  </div>
+</div>
+
+
+
+</body>
+
+
+
 </html>

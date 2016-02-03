@@ -22,7 +22,11 @@ const Cell = function(row, col) {
 }
 
 const initGame = function() {
+  let board = new Board();
 
+  while(true) {
+
+  }
 }
 
 
@@ -37,7 +41,7 @@ const makeMove = function(board, row, col, currentPlayer) {
 };
 
 
-const CheckBoardForWin = function(board, row, col, currentPlayer) {
+const checkBoardForWin = function(board, row, col, currentPlayer) {
 
   return checkRowForWin(board, row, col, currentPlayer)
   || checkColumnForWin(board, row, col, currentPlayer)

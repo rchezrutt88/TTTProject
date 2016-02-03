@@ -1,10 +1,52 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
-
 $background-color: #4e4e4e;
 $font-color: #dfdfdf;
+$border-color: #fff;
 
 body {
   background-color: $background-color;
   color: $font-color;
+}
+
+.game {
+  height: 600px;
+  left: 50%;
+  margin-left: -300px;
+  margin-top: -360px;
+  position: absolute;
+  top: 50%;
+  width: 600px;
+}
+
+.board {
+  height: 100%;
+  width: 100%;
+}
+
+.square {
+  border-color: $border-color;
+  border-width: 2px;
+  cursor: pointer;
+  float: left;
+  height: 33.3333%;
+  width: 33.3333%;
+  will-change: border-color;
+}
+
+.left {
+  border-right-style: solid;
+  clear: both;
+}
+
+.right {
+  border-left-style: solid;
+}
+
+.top {
+  border-bottom-style: solid;
+}
+
+.bottom {
+  border-top-style: solid;
 }
