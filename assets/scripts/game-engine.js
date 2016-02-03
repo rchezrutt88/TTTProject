@@ -18,23 +18,25 @@ const Board = function() {
 const Cell = function(row, col) {
   this.ROW = row;
   this.COL = col;
-  this.content = 'EMPTY';
-}
-
-const initGame = function() {
-  let board = new Board();
-
-  while(true) {
-
-  }
+  this.data = 'EMPTY';
 }
 
 
+const Player = function(symbol) {
+  this.symbol = symbol;
+}
 
-const makeMove = function(board, row, col, currentPlayer) {
+Board.prototype.makeMove = function (player, row, col) {
 
-  board[row][col].content = currentPlayer;
-  board.currentPlayer = currentPlayer;
+    this.ROWS[row][col].data = player.symbol;
+    this.currentRow = row;
+    this.currentCol = col;
+
+};
+
+ makeMove = function(board, player, row, col) {
+
+  board.ROWS[row][col].data = player.symbol;
   board.currentRow = row;
   board.currentCol = col;
 
@@ -48,6 +50,7 @@ const checkBoardForWin = function(board, row, col, currentPlayer) {
   || checkDiagonalForWin(board, row, col, currentPlayer);
 
 }
+
 
 //returns true for win, false for no win
 const checkRowForWin = function(board, currentPlayer, currentRow, currentCol) {
@@ -64,6 +67,8 @@ const checkColumnForWin = function(board, currentPlayer, currentRow, currentCol)
   }
 
   //returns true for win, false for no win
+
+
 const checkDiagonalForWin = function(board, currentPlayer, currentRow, currentCol) {
   return (currentRow === currentCol
     && board[0][0].content === currentPlayer
@@ -75,7 +80,22 @@ const checkDiagonalForWin = function(board, currentPlayer, currentRow, currentCo
     && board[2][0].content === currentPlayer);
 }
 
+// const checkDiagonalForWin = function(board, currentPlayer, currentRow, currentCol) {
+//   return (currentRow === currentCol
+//     && board[0][0].content === currentPlayer
+//     && board[1][1].content === currentPlayer
+//     && board[2][2].content === currentPlayer
+//     || currentRow + currentCol === 2
+//     && board[0][2].content === currentPlayer
+//     && board[1][1].content === currentPlayer
+//     && board[2][0].content === currentPlayer);
+// }
+
 
 const checkForTie = function() {
 
+}
+
+module.exports = {
+  Board, Player, makeMove
 }
