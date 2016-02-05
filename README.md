@@ -2,6 +2,8 @@
 
 Contained in this repo is a basic browser implementation of the timelessly brainless game tic-tac-toe. The program is broken into three parts: the game logic, the html/css, and the 'main' file that responds to events in the browser and updates the board using jquery.
 
+The game can be played on github pages [here](http://rchezrutt88.github.io/TTTProject/).
+
 ### The Game Logic
 
 Inside the game-engine, there are two constructers, one for a player object and the other for a player object.
