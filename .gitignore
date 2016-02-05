@@ -1,5 +1,5 @@
 app.js
-vendor.js
+git vendor.js
 specs.js
 *bundle.js
 _SpecRunner.html
