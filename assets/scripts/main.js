@@ -9,9 +9,7 @@ let currentPlayer;
 let won;
 let tie;
 
-// let $cleanBoard;
-
-
+//retrieves coordinates of clicked square
 let getSquareCoordinate = function(event) {
 
   let row = event.target.dataset['col'];
@@ -24,7 +22,6 @@ let getSquareCoordinate = function(event) {
 
 let resetBoard = function() {
   game = new gameEngine.Board();
-  // $('.game').replaceWith($cleanBoard.clone());
   $('.square').text('');
   $('.alerter').text('');
   currentPlayer = new gameEngine.Player('X');
@@ -39,14 +36,7 @@ let switchPlayer = function() {
   nextPlayer = tmp;
 }
 
-let ifWon = function() {
-
-}
-
-
-
 $(function() {
-
 
   game = new gameEngine.Board();
 
@@ -57,10 +47,9 @@ $(function() {
 
 
   //For clicks on the board...
-
-
   $('.square').on('click', function(event) {
 
+    //ugly hacks!
     if(won) {
       throw currentPlayer.symbol + 'already won the game!'
     }
@@ -69,19 +58,16 @@ $(function() {
       throw 'the game was tied!'
     }
 
-
     let coordinates = getSquareCoordinate(event);
     let row = coordinates.row;
     let col = coordinates.col;
 
-    // console.log(coordinates);
-
-    // console.log(game);
     try {
 
       won = game.makeMove(coordinates['row'], coordinates['col'], currentPlayer);
       tie = game.checkForTie();
 
+      //marks the spot
       $(event.target).text(currentPlayer.symbol);
 
       if (won) {
@@ -94,16 +80,19 @@ $(function() {
         switchPlayer();
       }
 
+      //catches 'already clicked' exceptions from game engine and 'already won' and 'alredy tied' exceptions from inside click function
     } catch (e) {
       console.log(e);
     }
 
-
   });
 
+  //For click on reset button...
   $('body > div > div.bottom-bar > button').on('click', function(event) {
     resetBoard();
   });
+
+  
 
 
 

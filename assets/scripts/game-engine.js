@@ -76,13 +76,7 @@ const checkColumnForWin = function (currentCol) {
 }
 
 const checkDiagonalForWin = function(ROWS, currentRow, currentCol) {
-  // console.log((currentRow === currentCol) && areEqual(ROWS[0][0], ROWS[1][1], ROWS[2][2]));
-  // console.log((currentRow + currentCol === 2) && areEqual(ROWS[0][2], ROWS[1][1], ROWS[2][0]));
-console.log(currentRow);
-console.log(currentCol);
-console.log(currentRow + currentCol);
-  console.log(currentRow + currentCol == 2);
-  console.log(areEqual(ROWS[0][2], ROWS[1][1], ROWS[2][0]));
+
 
   return currentRow === currentCol && areEqual(ROWS[0][0], ROWS[1][1], ROWS[2][2]) || currentRow + currentCol === 2 && areEqual(ROWS[0][2], ROWS[1][1], ROWS[2][0]);
 };
