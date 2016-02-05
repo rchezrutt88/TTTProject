@@ -92,7 +92,8 @@ $(function() {
     resetBoard();
   });
 
-  
+  //For click on login
+  $()
 
 
 

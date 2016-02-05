@@ -3,6 +3,8 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 $background-color: #4e4e4e;
 $font-color: #dfdfdf;
 $border-color: #fff;
+$bottom-bar-text-color: #313131;
+$title-color: #ff0000;
 
 body {
   background-color: $background-color;
@@ -25,23 +27,39 @@ body {
 }
 
 .bottom-bar {
-
+  height: 200px;
+  left: 50%;
+  margin-left: -300px;
+  margin-top: -360px;
+  position: static;
+  top: 50%;
+  width: 500px;
+  color: $bottom-bar-text-color;
 }
 
 .alerter {
+  font-size: 20px;
+}
 
+.reset-button {
+  margin-bottom: 10px;
+  margin-bottom: 10px
+}
+
+.navbar-brand {
+  color: $title-color;
 }
 
 .square {
   border-color: $border-color;
   border-width: 2px;
   cursor: pointer;
+  display: table-cell;
   float: left;
-  height: 33.3333%;
   font-size: 60px;
+  height: 33.3333%;
   text-align: center;
   vertical-align: middle;
-  display: table-cell;
   width: 33.3333%;
   will-change: border-color;
 }
@@ -61,4 +79,8 @@ body {
 
 .bottom {
   border-top-style: solid;
+}
+
+.player-info {
+  float: right;
 }
