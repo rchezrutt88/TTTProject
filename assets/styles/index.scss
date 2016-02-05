@@ -28,12 +28,19 @@ body {
 
 }
 
+.alerter {
+
+}
+
 .square {
   border-color: $border-color;
   border-width: 2px;
   cursor: pointer;
   float: left;
   height: 33.3333%;
+  font-size: 50px;
+  display: table-cell;
+  vertical-align: middle;
   width: 33.3333%;
   will-change: border-color;
 }

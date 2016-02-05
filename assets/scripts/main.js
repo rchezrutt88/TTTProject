@@ -1,63 +1,3 @@
-// $(document).ready(
-//
-//   initGame()
-//
-//   $(".square").on("click", function(e) {
-//     let col = e.target.dataset['col'];
-//     let row = e.target.dataset['row'];
-//
-//
-//
-//   })
-//
-//
-// );
-
-// let playerActions = {
-//   moveMade: function() {
-//     $(".square").on("click", function(e) {
-//       console.log(e);
-//     });
-//   }
-//
-// }
-//
-// let UI = {
-//   makeMove: function(event) {
-//     console.log(event);
-//     console.log(game);
-//   }
-//
-// };
-//
-//
-//
-//
-// let init = function() {
-//
-//   let game = gameEngine.Board();
-//   let playerX = gameEngine.Player('x');
-//   let playerO = gameEngine.Player('o');
-//
-//   $('.square').on('click', makeMove);
-//
-// };
-//
-// $(document).ready(init);
-
-
-//
-// let game = gameEngine.Board();
-// let playerX = gameEngine.Player('X')
-// let playerO = gameEngine.Player('O')
-//
-// $( document ).ready(console.log("Ready!"));
-//
-// let game = gameEngine.Board();
-// let playerX = gameEngine.Player('x');
-// let player0 = gameEngine.Player('o');
-//
-// $('.square').on('click', );
 'use strict'
 
 let gameEngine = require('./game-engine');
@@ -85,7 +25,8 @@ let getSquareCoordinate = function(event) {
 let resetBoard = function() {
   game = new gameEngine.Board();
   // $('.game').replaceWith($cleanBoard.clone());
-  $( ".square" ).text('');
+  $('.square').text('');
+  $('.alerter').text('');
   currentPlayer = new gameEngine.Player('X');
   nextPlayer = new gameEngine.Player('O');
   won = false;
@@ -106,7 +47,6 @@ let ifWon = function() {
 
 $(function() {
 
-  // $cleanBoard = $('.game').find(*).clone();
 
   game = new gameEngine.Board();
 
@@ -119,10 +59,16 @@ $(function() {
   //For clicks on the board...
 
 
-
-
-
   $('.square').on('click', function(event) {
+
+    if(won) {
+      throw currentPlayer.symbol + 'already won the game!'
+    }
+
+    if(tie) {
+      throw 'the game was tied!'
+    }
+
 
     let coordinates = getSquareCoordinate(event);
     let row = coordinates.row;
@@ -131,16 +77,19 @@ $(function() {
     // console.log(coordinates);
 
     // console.log(game);
-
     try {
 
       won = game.makeMove(coordinates['row'], coordinates['col'], currentPlayer);
+      tie = game.checkForTie();
 
       $(event.target).text(currentPlayer.symbol);
 
       if (won) {
         console.log(currentPlayer.symbol + ' wins!');
-        resetBoard();
+        $('.alerter').text(currentPlayer.symbol + ' wins!');
+      } else if (tie) {
+        $('.alerter').text("It's a tie!");
+
       } else {
         switchPlayer();
       }
