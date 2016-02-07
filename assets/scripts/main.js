@@ -1,7 +1,6 @@
-'use strict'
+'use strict';
 
 let gameEngine = require('./game-engine');
-
 
 let game;
 let nextPlayer;
@@ -10,17 +9,18 @@ let won;
 let tie;
 
 //retrieves coordinates of clicked square
-let getSquareCoordinate = function(event) {
+let getSquareCoordinate = function (event) {
 
-  let row = event.target.dataset['col'];
-  let col = event.target.dataset['row'];
+  let row = event.target.dataset.col;
+  let col = event.target.dataset.row;
 
   // console.log(event.target.dataset);
   return event.target.dataset;
 
-}
+};
 
-let resetBoard = function() {
+//resets game board
+let resetBoard = function () {
   game = new gameEngine.Board();
   $('.square').text('');
   $('.alerter').text('');
@@ -28,16 +28,18 @@ let resetBoard = function() {
   nextPlayer = new gameEngine.Player('O');
   won = false;
   tie = false;
-}
+};
 
-let switchPlayer = function() {
+//switches currently active player
+let switchPlayer = function () {
   let tmp = currentPlayer;
   currentPlayer = nextPlayer;
   nextPlayer = tmp;
-}
+};
 
-$(function() {
+$(function () {
 
+  //initialize a new game object
   game = new gameEngine.Board();
 
   currentPlayer = new gameEngine.Player('X');
@@ -45,17 +47,16 @@ $(function() {
   won = false;
   tie = false;
 
-
   //For clicks on the board...
-  $('.square').on('click', function(event) {
+  $('.square').on('click', function (event) {
 
     //ugly hacks!
-    if(won) {
-      throw currentPlayer.symbol + 'already won the game!'
+    if (won) {
+      throw currentPlayer.symbol + 'already won the game!';
     }
 
-    if(tie) {
-      throw 'the game was tied!'
+    if (tie) {
+      throw 'the game was tied!';
     }
 
     let coordinates = getSquareCoordinate(event);
@@ -64,7 +65,7 @@ $(function() {
 
     try {
 
-      won = game.makeMove(coordinates['row'], coordinates['col'], currentPlayer);
+      won = game.makeMove(row, col, currentPlayer);
       tie = game.checkForTie();
 
       //marks the spot
@@ -88,13 +89,11 @@ $(function() {
   });
 
   //For click on reset button...
-  $('body > div > div.bottom-bar > button').on('click', function(event) {
+  $('body > div > div.bottom-bar > button').on('click', function (event) {
     resetBoard();
   });
 
   //For click on login
-  $()
+  $();
 
-
-
-})
+});
