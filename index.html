@@ -31,6 +31,7 @@
 
       <div class="alerter"></div>
       <button type="button" class="reset-button">Reset</button>
+
       <div class="login">
 
         <form method="post" action="index.html">
@@ -48,6 +49,7 @@
           <p class="submit">
             <input type="submit" name="commit" value="Login">
           </p>
+          <button type="button" class="create-account">Create Account</button>
         </form>
       </div>
 
@@ -55,6 +57,42 @@
 
 
     </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Create Account</h4>
+        </div>
+
+
+        <div class="modal-body">
+          <form id="create-account">
+          <fieldset>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email"/>
+            <label for="password">Password:</label>
+
+            <input type="password" id="pwd" name="password" />
+            <label for="confirmpwd">Confirm Password:</label>
+
+            <input type="password" id="confirmpwd" name="password_confirmation" />
+            <input type="submit" value="Create Account" />
+          </fieldset>
+          </form>
+        </div>
+
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   </div>
 

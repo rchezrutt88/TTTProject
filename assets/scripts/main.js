@@ -1,6 +1,7 @@
 'use strict';
 
 let gameEngine = require('./game-engine');
+let ajaxAPI = require('./ajax-interface');
 
 let game;
 let nextPlayer;
@@ -9,7 +10,7 @@ let won;
 let tie;
 
 //retrieves coordinates of clicked square
-let getSquareCoordinate = function (event) {
+let getSquareCoordinate = function(event) {
 
   let row = event.target.dataset.col;
   let col = event.target.dataset.row;
@@ -20,7 +21,7 @@ let getSquareCoordinate = function (event) {
 };
 
 //resets game board
-let resetBoard = function () {
+let resetBoard = function() {
   game = new gameEngine.Board();
   $('.square').text('');
   $('.alerter').text('');
@@ -30,14 +31,18 @@ let resetBoard = function () {
   tie = false;
 };
 
+let getNewAccountInfo = function() {
+
+}
+
 //switches currently active player
-let switchPlayer = function () {
+let switchPlayer = function() {
   let tmp = currentPlayer;
   currentPlayer = nextPlayer;
   nextPlayer = tmp;
 };
 
-$(function () {
+$(function() {
 
   //initialize a new game object
   game = new gameEngine.Board();
@@ -48,7 +53,7 @@ $(function () {
   tie = false;
 
   //For clicks on the board...
-  $('.square').on('click', function (event) {
+  $('.square').on('click', function(event) {
 
     //ugly hacks!
     if (won) {
@@ -89,11 +94,22 @@ $(function () {
   });
 
   //For click on reset button...
-  $('body > div > div.bottom-bar > button').on('click', function (event) {
+  $('.reset-button').on('click', function(event) {
     resetBoard();
   });
 
+
+
   //For click on login
-  $();
+  $('.create-account').on('click', function(event) {
+    $("#myModal").modal();
+    $("form").submit(function(event) {
+      event.preventDefault();
+      console.log($(this).serialize());
+      ajaxAPI.createUser($(this).serialize()); 
+    });
+  });
+
+
 
 });
