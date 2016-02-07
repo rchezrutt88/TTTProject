@@ -11,6 +11,10 @@ body {
   color: $font-color;
 }
 
+.modal-content {
+  color: $bottom-bar-text-color;
+}
+
 .game {
   height: 600px;
   left: 50%;

@@ -1,11 +1,17 @@
 'use strict';
 
-let baseUrl = "http:ttt.wdibos.com"
+let baseUrl = "/http:ttt.wdibos.com"
 
-let createUser = function( data ) {
-  $.post(baseUrl + '/sign-up', data, function (data) {
-
-  })
+let createUser = function(data) {
+  $.ajax({
+      type: "POST",
+      url: baseUrl + "/users",
+      data: data,
+    }).done(function(data) {
+      console.log(data);
+    }).fail(function(jqxhr) {
+      console.error(jqxhr);
+    });
 }
 
 let logIn = function(email, password) {

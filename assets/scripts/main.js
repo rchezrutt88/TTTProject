@@ -105,8 +105,8 @@ $(function() {
     $("#myModal").modal();
     $("form").submit(function(event) {
       event.preventDefault();
-      console.log($(this).serialize());
-      ajaxAPI.createUser($(this).serialize()); 
+      console.log($(this).serializeArray());
+      ajaxAPI.createUser($(this).serializeArray());
     });
   });
 
