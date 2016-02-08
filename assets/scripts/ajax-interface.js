@@ -1,12 +1,15 @@
 'use strict';
 
-let baseUrl = "/http:ttt.wdibos.com"
+let baseUrl = "http://ttt.wdibos.com";
+let contentType = "application/json";
 
 let createUser = function(data) {
+  let credentials = {credentials: $.extend({}, data)};
+  console.log(credentials);
   $.ajax({
       type: "POST",
       url: baseUrl + "/users",
-      data: data,
+      data: credentials,
     }).done(function(data) {
       console.log(data);
     }).fail(function(jqxhr) {
