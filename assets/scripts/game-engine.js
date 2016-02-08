@@ -36,6 +36,27 @@ Board.prototype.makeMove = function (row, col, player) {
 
 };
 
+const checkRowForWin = function (currentRow) {
+  // debugger;
+  return arrayIsEqual(currentRow);
+};
+
+const checkColumnForWin = function (currentCol) {
+  // debugger;
+  return arrayIsEqual(currentCol);
+};
+
+const checkDiagonalForWin = function (ROWS, currentRow, currentCol) {
+
+  return currentRow === currentCol && areEqual(ROWS[0][0], ROWS[1][1], ROWS[2][2]) || currentRow + currentCol === 2 && areEqual(ROWS[0][2], ROWS[1][1], ROWS[2][0]);
+};
+
+const checkIfLegal = function (val) {
+  if (val) {
+    throw 'Cell not empty';
+  }
+};
+
 const areEqual = function () {
   let len = arguments.length;
   for (let i = 1; i < len; i++) {
@@ -64,26 +85,6 @@ const checkBoardForWin = function (ROWS, currentRow, currentCol) {
   || checkDiagonalForWin(ROWS, currentRow, currentCol);
 };
 
-const checkRowForWin = function (currentRow) {
-  // debugger;
-  return arrayIsEqual(currentRow);
-};
-
-const checkColumnForWin = function (currentCol) {
-  // debugger;
-  return arrayIsEqual(currentCol);
-};
-
-const checkDiagonalForWin = function (ROWS, currentRow, currentCol) {
-
-  return currentRow === currentCol && areEqual(ROWS[0][0], ROWS[1][1], ROWS[2][2]) || currentRow + currentCol === 2 && areEqual(ROWS[0][2], ROWS[1][1], ROWS[2][0]);
-};
-
-const checkIfLegal = function (val) {
-  if (val) {
-    throw 'Cell not empty';
-  }
-};
 
 //TODO make smarter. check for draws.
 Board.prototype.checkForTie = function () {
