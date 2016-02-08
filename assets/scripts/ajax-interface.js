@@ -9,6 +9,8 @@ let createUser = function(data) {
   $.ajax({
       type: "POST",
       url: baseUrl + "/users",
+      contentType: contentType,
+      processData: false,
       data: credentials,
     }).done(function(data) {
       console.log(data);

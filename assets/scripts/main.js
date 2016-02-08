@@ -100,14 +100,24 @@ $(function() {
 
 
 
-  //For click on login
+  //For click on create account
   $('.create-account').on('click', function(event) {
+
+    console.log(event);
+
+    event.preventDefault();
+
     $("#myModal").modal();
     $("form").submit(function(event) {
       event.preventDefault();
       console.log($(this).serializeArray());
       ajaxAPI.createUser($(this).serializeArray());
     });
+  });
+
+  //For click on login
+  $('.submit > input:nth-child(1)').on('click', function(event) {
+    console.log(event);
   });
 
 
