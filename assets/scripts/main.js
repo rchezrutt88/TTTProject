@@ -104,7 +104,6 @@ $(function() {
   $('.create-account').on('click', function(event) {
 
     console.log(event);
-
     event.preventDefault();
 
     $("#myModal").modal();
