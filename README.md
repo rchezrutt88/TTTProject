@@ -26,4 +26,4 @@ Add functionality that enables the tic-tac-toe game to communicate with a server
 
 ### UNRESOLVED ISSUES
 
-The create account modal does not funciton in github pages, but, oddly enough the modal does function with grunt serve. In fact, the create account button does not appear to function at all, refusing even to log a "click" event to the consol. Master branch and gh-pages branch are identical. Seems gh-pages is not rebuilding my page? 
+The create account modal does not funciton in github pages, but, oddly enough the modal does function with grunt serve. In fact, the create account button does not appear to function at all, refusing even to log a "click" event to the consol. Master branch and gh-pages branch are identical. Seems gh-pages is not rebuilding my page?
