@@ -57,7 +57,7 @@ let logIn = function(formData) {
     .fail(function(jQXHR){
       console.log(jQXHR);
     });
-
+}
 
 let createGame = function() {
 

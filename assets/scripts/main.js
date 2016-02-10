@@ -23,8 +23,8 @@ let getSquareCoordinate = function(event) {
 //resets game board
 let resetBoard = function() {
   game = new gameEngine.Board();
-  $('.square').text('');
-  $('.alerter').text('');
+  $('.square').empty();
+  $("#alert-text").empty();
   currentPlayer = new gameEngine.Player('X');
   nextPlayer = new gameEngine.Player('O');
   won = false;
@@ -57,7 +57,7 @@ $(function() {
 
     //ugly hacks!
     if (won) {
-      throw currentPlayer.symbol + 'already won the game!';
+      throw currentPlayer.symbol + ' already won the game!';
     }
 
     if (tie) {
@@ -74,13 +74,13 @@ $(function() {
       tie = game.checkForTie();
 
       //marks the spot
-      $(event.target).text(currentPlayer.symbol);
+      $(event.target).append("<p class='xo'>" + currentPlayer.symbol + '</p>');
 
       if (won) {
         console.log(currentPlayer.symbol + ' wins!');
-        $('.alerter').text(currentPlayer.symbol + ' wins!');
+        $("#alert-text").append("<p>" + currentPlayer.symbol + " wins!</p>");
       } else if (tie) {
-        $('.alerter').text("It's a tie!");
+        $("#alert-text").append("<p>It's a tie!</p>");
 
       } else {
         switchPlayer();
@@ -94,11 +94,9 @@ $(function() {
   });
 
   //For click on reset button...
-  $('.reset-button').on('click', function(event) {
+  $('#reset-button').on('click', function(event) {
     resetBoard();
   });
-
-
 
   //For click on create account
   $('.create-account').on('click', function(event) {
@@ -119,13 +117,11 @@ $(function() {
     console.log(event);
   });
 
-  $("#login").on('click', function(){
+  $("#login").on('click', function() {
     let form = $(".login > form")[0];
     let formData = new FormData(form);
-    ajax-interface.logIn(formData);
+    ajax.API.logIn(formData);
   });
-
-
 
 
 });

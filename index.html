@@ -1,104 +1,79 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="Robert Ruttenberg" content="">
+  <link rel="icon" href="../../favicon.ico">
+
   <title>Robert's Uhmazing TicTacToe</title>
 
   <script src="http://localhost:8080/webpack-dev-server.js"></script>
   <script src="vendor.bundle.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="bundle.js" type="text/javascript" charset="utf-8" defer></script>
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
-
-
 
 <body>
 
+  <div class="container">
 
-  <div class="game">
-    <div class="board">
-      <div class="square top left" data-row="2" data-col="0"></div>
-      <div class="square top" data-row="2" data-col="1"></div>
-      <div class="square top right" data-row="2" data-col="2"></div>
-      <div class="square left" data-row="1" data-col="0"></div>
-      <div class="square" data-row="1" data-col="1"></div>
-      <div class="square right" data-row="1" data-col="2"></div>
-      <div class="square bottom left" data-row="0" data-col="0"></div>
-      <div class="square bottom" data-row="0" data-col="1"></div>
-      <div class="square bottom right" data-row="0" data-col="2"></div>
+    <div class="header clearfix">
+      <nav>
+        <ul class="nav nav-pills pull-right">
+          <li role="presentation" class="active"><a href="#">Home</a></li>
+          <li role="presentation"><a href="#">About</a></li>
+          <li role="presentation"><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+      <h3 class="text-muted">Robert's Uh-Maze-Ing Tic-Tac-Toe</h3>
     </div>
 
-    <div class="bottom-bar">
+    <div class="game row">
+      <div class="board col-lg-12">
 
-      <div class="alerter"></div>
-      <button type="button" class="reset-button">Reset</button>
+        <div class="square top left" data-row="2" data-col="0"></div>
+        <div class="square top" data-row="2" data-col="1"></div>
+        <div class="square top right" data-row="2" data-col="2"></div>
+        <div class="square left" data-row="1" data-col="0"></div>
+        <div class="square" data-row="1" data-col="1"></div>
+        <div class="square right" data-row="1" data-col="2"></div>
+        <div class="square bottom left" data-row="0" data-col="0"></div>
+        <div class="square bottom" data-row="0" data-col="1"></div>
+        <div class="square bottom right" data-row="0" data-col="2"></div>
 
-      <div class="login">
-        <form>
-          <p>
-            <input type="text" name="login" value="" placeholder="Username or Email">
-          </p>
-          <p>
-            <input type="password" name="password" value="" placeholder="Password">
-          </p>
-          <p class="remember_me">
-            <label>
-              <input type="checkbox" name="remember_me" id="remember_me"> Remember me on this computer
-            </label>
-          </p>
-          <!-- <p class="submit">
-            <input type="submit" name="commit" value="Login">
-          </p> -->
-
-          <button type="button" id='login' class="create-account">Login</button>
-          <button type="button" id='register' class="create-account">Create Account</button>
-        </form>
-      </div>
-
-      <div class="player-info"></div>
-
-
-    </div>
-
-    <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Create Account</h4>
-        </div>
-
-
-        <div class="modal-body">
-          <form id="create-account">
-          <fieldset>
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email"/>
-            <label for="password">Password:</label>
-
-            <input type="password" id="pwd" name="password" />
-            <label for="confirmpwd">Confirm Password:</label>
-
-            <input type="password" id="confirmpwd" name="password_confirmation" />
-            <input type="submit" value="Create Account" />
-          </fieldset>
-          </form>
-        </div>
-
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
       </div>
 
     </div>
-  </div>
+
+    <div class="bottom-box">
+      <div class="alert-box"><id="alert-text"></div>
+      <div class="score-box"></div>
+      <div class="user-info"></div>
+      <button type="button" class="btn btn-default" id="reset-button">Reset</button>
+    </div>
+
+
+
+    <footer class="footer">
+      <p>© 2015 Company, Inc.</p>
+    </footer>
 
   </div>
+  <!-- /container -->
 
 </body>
-
-
 
 </html>
