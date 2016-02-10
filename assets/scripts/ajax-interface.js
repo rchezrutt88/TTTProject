@@ -31,11 +31,33 @@ let signUp = function(data) {
     }).fail(function(jqxhr) {
       console.error(jqxhr);
     });
-}
+};
 
-let logIn = function(email, password) {
+// $("#login").on('submit', function(e){
+//   e.preventDefault();
+//   var formData = new FormData($("#login")[0]);
+//   $.ajax({
+//     url: baseURL + '/sign-in',
+//
+//
+//   });
+// });
 
-}
+let logIn = function(formData) {
+  $.ajax({
+    url: baseUrl + '/sign-in',
+    data: formData,
+    contentType: false,
+    processData: false,
+    type: "POST"
+  })
+    .done(function(responseData){
+      console.log(responseData);
+    })
+    .fail(function(jQXHR){
+      console.log(jQXHR);
+    });
+};
 
 let createGame = function() {
 

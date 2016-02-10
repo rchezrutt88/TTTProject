@@ -119,6 +119,13 @@ $(function() {
     console.log(event);
   });
 
+  $("#login").on('click', function(){
+    let form = $(".login > form")[0];
+    let formData = new FormData(form);
+    ajax-interface.logIn(formData);
+  });
+
+
 
 
 });
