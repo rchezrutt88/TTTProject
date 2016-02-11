@@ -98,17 +98,22 @@ $(function() {
     resetBoard();
   });
 
+
+  //For sign-up
+$('#signupModal ')
+
+
   //For click on create account
-  $('.create-account').on('click', function(event) {
-
-    event.preventDefault();
-
-    $("#myModal").modal();
-    $("form").submit(function(event) {
-      event.preventDefault();
-      ajaxAPI.signUp($(this).serializeArray());
-    });
-  });
+  // $('.create-account').on('click', function(event) {
+  //
+  //   event.preventDefault();
+  //
+  //   $("#myModal").modal();
+  //   $("form").submit(function(event) {
+  //     event.preventDefault();
+  //     ajaxAPI.signUp($(this).serializeArray());
+  //   });
+  // });
 
   //For click on login
   //Shit still DOES NOT WORK. Won't even log to console? What the hell?
