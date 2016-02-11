@@ -100,7 +100,14 @@ $(function() {
 
 
   //For sign-up
-$('#signupModal ')
+$("#signupForm").on('submit', function(event) {
+  event.preventDefault();
+  console.log(event.target);
+  let formData = new FormData(event.target);
+  console.log(formData);
+  console.log($(event.target).serializeArray());
+  //let formData = new FormData(event.)
+});
 
 
   //For click on create account
