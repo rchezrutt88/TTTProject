@@ -24,7 +24,7 @@ let getSquareCoordinate = function(event) {
 let resetBoard = function() {
   game = new gameEngine.Board();
   $('.square').empty();
-  $("#alert-text").empty();
+  $(".alert-box").empty();
   currentPlayer = new gameEngine.Player('X');
   nextPlayer = new gameEngine.Player('O');
   won = false;
@@ -78,9 +78,9 @@ $(function() {
 
       if (won) {
         console.log(currentPlayer.symbol + ' wins!');
-        $("#alert-text").append("<p>" + currentPlayer.symbol + " wins!</p>");
+        $(".alert-box").append("<p id='alert-text'>" + currentPlayer.symbol + " wins!</p>");
       } else if (tie) {
-        $("#alert-text").append("<p>It's a tie!</p>");
+        $(".alert-box").append("<p id='alert-text'>It's a tie!</p>");
 
       } else {
         switchPlayer();

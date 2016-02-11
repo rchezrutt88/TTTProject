@@ -28,18 +28,83 @@
 
 <body>
 
+  <div class="modal fade" id="loginModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Login</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input class="form-control" id="loginEmail" placeholder="Enter email" type="email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input class="form-control" id="loginPassword" placeholder="Password" type="password">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn">Close</a>
+          <a href="#" class="btn btn-primary">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="signupModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Sign-up</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input class="form-control" id="signupEmail" placeholder="Enter email" type="email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input class="form-control" id="signupPassword" placeholder="Password" type="password">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Confirm Password</label>
+            <input class="form-control" id="signupConPassword" placeholder="Password" type="password">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn">Close</a>
+          <a href="#" class="btn btn-primary">Sign-up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <span class="navbar-brand">Tic-Tac-Toe</span>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="#myModal" data-toggle="modal" data-target="#loginModal">Login</a></li>
+          <li><a href="#signUp" data-toggle="modal" data-target="#signupModal">Sign-up</a></li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </nav>
+
   <div class="container">
 
-    <div class="header clearfix">
-      <nav>
-        <ul class="nav nav-pills pull-right">
-          <li role="presentation" class="active"><a href="#">Home</a></li>
-          <li role="presentation"><a href="#">About</a></li>
-          <li role="presentation"><a href="#">Contact</a></li>
-        </ul>
-      </nav>
-      <h3 class="text-muted">Robert's Uh-Maze-Ing Tic-Tac-Toe</h3>
-    </div>
 
     <div class="game row">
       <div class="board col-lg-12">
@@ -58,16 +123,17 @@
 
     </div>
 
-    <div class="bottom-box">
-      <div class="alert-box"><id="alert-text"></div>
+    <div class="bottom-box row">
+      <div class="alert-box col-lg-12"></div>
       <div class="score-box"></div>
       <div class="user-info"></div>
-      <button type="button" class="btn btn-default" id="reset-button">Reset</button>
+      <button type="button" class="btn btn-lg btn-primary" id="reset-button">Reset</button>
+
     </div>
 
 
 
-    <footer class="footer">
+    <footer class="footer row">
       <p>© 2015 Company, Inc.</p>
     </footer>
 
