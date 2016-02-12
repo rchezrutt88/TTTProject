@@ -102,10 +102,8 @@ $(function() {
   //For sign-up
 $("#signupForm").on('submit', function(event) {
   event.preventDefault();
-  console.log(event.target);
   let formData = new FormData(event.target);
-  console.log(formData);
-  console.log($(event.target).serializeArray());
+  ajaxAPI.signUp(formData);
   //let formData = new FormData(event.)
 });
 

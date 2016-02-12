@@ -5,8 +5,18 @@ let baseUrl = "http://tic-tac-toe.wdibos.com";
 let contentType = "application/json";
 
 let signUp = function (formData) {
-
-}
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "/sign-up",
+    contentType: false,
+    processData: false,
+    data: formData,
+  }).done(function(responseData) {
+    console.log(responseData);
+  }).fail(function(jqxhr) {
+    console.error(jqxhr);
+  })
+};
 
 
 // let signUp = function(data) {
@@ -40,7 +50,7 @@ let signUp = function (formData) {
 
 $("#login").on('submit', function(e){
   e.preventDefault();
-  var formData = new FormData($("#login")[0]);
+  let formData = new FormData($("#login")[0]);
   $.ajax({
     url: baseURL + '/sign-in',
 
