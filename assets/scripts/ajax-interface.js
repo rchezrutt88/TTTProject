@@ -4,6 +4,9 @@ let baseUrl = "http://tic-tac-toe.wdibos.com";
 // let baseUrl = "https://httpbin.org/post"
 let contentType = "application/json";
 
+let userData;
+
+
 let signUp = function(formData) {
   $.ajax({
     type: "POST",
@@ -19,6 +22,13 @@ let signUp = function(formData) {
 };
 
 let signIn = function(formData) {
+
+  //TODO handle cases where user already signed in
+
+  if(userData) {
+    throw 'user already signed in';
+  }
+
   $.ajax({
       type: "POST",
       url: baseUrl + '/sign-in',
@@ -27,10 +37,38 @@ let signIn = function(formData) {
       data: formData,
     }).done(function(responseData) {
       console.log(responseData);
+
+      userData = responseData.user;
+      let userEmail = responseData.user.email;
+
+      //display user email in navbar
+      $(".navbar-right").append("<li><p class='navbar-text'>Signed in as " + userEmail+ "</p></li>");
+
+      //hide modal
+      $("#signinModal").modal("hide");
+
     }).fail(function(jQXHR) {
       console.log(jQXHR);
     });
 };
+
+let changePassword = function() {
+  $.ajax({
+    type: "PATCH",
+  })
+};
+
+let signOut = function() {
+  $.ajax({
+    type: "DELETE",
+  })
+}
+
+let updateGameState = function() {
+  $.ajax({
+    type: "POST",
+  })
+}
 
 
 // let signUp = function(data) {
