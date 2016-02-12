@@ -23,8 +23,8 @@ let getSquareCoordinate = function(event) {
 //resets game board
 let resetBoard = function() {
   game = new gameEngine.Board();
-  $('.square').text('');
-  $('.alerter').text('');
+  $('.square').empty();
+  $(".alert-box").empty();
   currentPlayer = new gameEngine.Player('X');
   nextPlayer = new gameEngine.Player('O');
   won = false;
@@ -57,7 +57,7 @@ $(function() {
 
     //ugly hacks!
     if (won) {
-      throw currentPlayer.symbol + 'already won the game!';
+      throw currentPlayer.symbol + ' already won the game!';
     }
 
     if (tie) {
@@ -74,13 +74,13 @@ $(function() {
       tie = game.checkForTie();
 
       //marks the spot
-      $(event.target).text(currentPlayer.symbol);
+      $(event.target).append("<p class='xo'>" + currentPlayer.symbol + '</p>');
 
       if (won) {
         console.log(currentPlayer.symbol + ' wins!');
-        $('.alerter').text(currentPlayer.symbol + ' wins!');
+        $(".alert-box").append("<p id='alert-text'>" + currentPlayer.symbol + " wins!</p>");
       } else if (tie) {
-        $('.alerter').text("It's a tie!");
+        $(".alert-box").append("<p id='alert-text'>It's a tie!</p>");
 
       } else {
         switchPlayer();
@@ -94,31 +94,44 @@ $(function() {
   });
 
   //For click on reset button...
-  $('.reset-button').on('click', function(event) {
+  $('#reset-button').on('click', function(event) {
     resetBoard();
   });
 
 
+  //For sign-up
+$("#signupForm").on('submit', function(event) {
+  event.preventDefault();
+  let formData = new FormData(event.target);
+  ajaxAPI.signUp(formData);
+  //let formData = new FormData(event.)
+});
+
 
   //For click on create account
-  $('.create-account').on('click', function(event) {
-
-    console.log(event);
-    event.preventDefault();
-
-    $("#myModal").modal();
-    $("form").submit(function(event) {
-      event.preventDefault();
-      console.log($(this).serializeArray());
-      ajaxAPI.createUser($(this).serializeArray());
-    });
-  });
+  // $('.create-account').on('click', function(event) {
+  //
+  //   event.preventDefault();
+  //
+  //   $("#myModal").modal();
+  //   $("form").submit(function(event) {
+  //     event.preventDefault();
+  //     ajaxAPI.signUp($(this).serializeArray());
+  //   });
+  // });
 
   //For click on login
+  //Shit still DOES NOT WORK. Won't even log to console? What the hell?
   $('.submit > input:nth-child(1)').on('click', function(event) {
+    console.log("blah blah blah");
     console.log(event);
   });
 
+  $("#login").on('click', function() {
+    let form = $(".login > form")[0];
+    let formData = new FormData(form);
+    ajax.API.logIn(formData);
+  });
 
 
 });
