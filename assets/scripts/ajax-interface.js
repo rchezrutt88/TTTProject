@@ -4,7 +4,7 @@ let baseUrl = "http://tic-tac-toe.wdibos.com";
 // let baseUrl = "https://httpbin.org/post"
 let contentType = "application/json";
 
-let signUp = function (formData) {
+let signUp = function(formData) {
   $.ajax({
     type: "POST",
     url: baseUrl + "/sign-up",
@@ -16,6 +16,20 @@ let signUp = function (formData) {
   }).fail(function(jqxhr) {
     console.error(jqxhr);
   })
+};
+
+let signIn = function(formData) {
+  $.ajax({
+      type: "POST",
+      url: baseUrl + '/sign-in',
+      contentType: false,
+      processData: false,
+      data: formData,
+    }).done(function(responseData) {
+      console.log(responseData);
+    }).fail(function(jQXHR) {
+      console.log(jQXHR);
+    });
 };
 
 
@@ -48,36 +62,24 @@ let signUp = function (formData) {
 //     });
 // };
 
-$("#login").on('submit', function(e){
-  e.preventDefault();
-  let formData = new FormData($("#login")[0]);
-  $.ajax({
-    url: baseURL + '/sign-in',
+// $("#login").on('submit', function(e){
+//   e.preventDefault();
+//   let formData = new FormData($("#login")[0]);
+//   $.ajax({
+//     url: baseURL + '/sign-in',
+//
+//
+//   });
+// });
 
 
-  });
-});
-
-let logIn = function(formData) {
-  $.ajax({
-    url: baseUrl + '/sign-in',
-    data: formData,
-    contentType: false,
-    processData: false,
-    type: "POST"
-  })
-    .done(function(responseData){
-      console.log(responseData);
-    })
-    .fail(function(jQXHR){
-      console.log(jQXHR);
-    });
-}
 
 let createGame = function() {
 
 }
 
 module.exports = {
-  signUp, logIn, createGame,
+  signUp,
+  signIn,
+  createGame,
 };

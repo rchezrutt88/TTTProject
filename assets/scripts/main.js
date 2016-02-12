@@ -31,10 +31,6 @@ let resetBoard = function() {
   tie = false;
 };
 
-let getNewAccountInfo = function() {
-
-}
-
 //switches currently active player
 let switchPlayer = function() {
   let tmp = currentPlayer;
@@ -107,6 +103,13 @@ $("#signupForm").on('submit', function(event) {
   //let formData = new FormData(event.)
 });
 
+//For sign-in
+$("#signinForm").on('submit', function(event) {
+  event.preventDefault();
+  let formData = new FormData(event.target);
+  ajaxAPI.signIn(formData);
+});
+
 
   //For click on create account
   // $('.create-account').on('click', function(event) {
@@ -122,16 +125,16 @@ $("#signupForm").on('submit', function(event) {
 
   //For click on login
   //Shit still DOES NOT WORK. Won't even log to console? What the hell?
-  $('.submit > input:nth-child(1)').on('click', function(event) {
-    console.log("blah blah blah");
-    console.log(event);
-  });
+  // $('.submit > input:nth-child(1)').on('click', function(event) {
+  //   console.log("blah blah blah");
+  //   console.log(event);
+  // });
 
-  $("#login").on('click', function() {
-    let form = $(".login > form")[0];
-    let formData = new FormData(form);
-    ajax.API.logIn(formData);
-  });
+  // $("#login").on('click', function() {
+  //   let form = $(".login > form")[0];
+  //   let formData = new FormData(form);
+  //   ajax.API.signIn(formData);
+  // });
 
 
 });
