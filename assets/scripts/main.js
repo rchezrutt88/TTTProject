@@ -110,6 +110,12 @@ $("#signinForm").on('submit', function(event) {
   ajaxAPI.signIn(formData);
 });
 
+//for sign-out
+$("#signoutbtn").on('click', function(event) {
+  ajaxAPI.signOut();
+  resetBoard();
+});
+
 
   //For click on create account
   // $('.create-account').on('click', function(event) {

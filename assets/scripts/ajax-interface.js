@@ -6,6 +6,10 @@ let contentType = "application/json";
 
 let userData;
 
+let getUserData = function() {
+  return userData;
+};
+
 
 let signUp = function(formData) {
   $.ajax({
@@ -25,50 +29,76 @@ let signIn = function(formData) {
 
   //TODO handle cases where user already signed in
 
-  if(userData) {
+  if (userData) {
     throw 'user already signed in';
   }
 
   $.ajax({
-      type: "POST",
-      url: baseUrl + '/sign-in',
-      contentType: false,
-      processData: false,
-      data: formData,
-    }).done(function(responseData) {
-      console.log(responseData);
+    type: "POST",
+    url: baseUrl + '/sign-in',
+    contentType: false,
+    processData: false,
+    data: formData,
+  }).done(function(responseData) {
+    console.log(responseData);
 
-      userData = responseData.user;
-      let userEmail = responseData.user.email;
+    userData = responseData.user;
+    let userEmail = responseData.user.email;
 
-      //display user email in navbar
-      $(".navbar-right").append("<li><p class='navbar-text'>Signed in as " + userEmail+ "</p></li>");
+    //display user email in navbar
+    $(".navbar-right").append("<li><p class='navbar-text'>Signed in as " + userEmail + "</p></li>");
 
-      //hide modal
-      $("#signinModal").modal("hide");
+    //hide modal
+    $("#signinModal").modal("hide");
 
-    }).fail(function(jQXHR) {
-      console.log(jQXHR);
-    });
+  }).fail(function(jQXHR) {
+    console.log(jQXHR);
+  });
 };
 
 let changePassword = function() {
+  //REQUIRES A TOKEN HEADER
+  //REQUIRES OLD PASS AND NEW PASS KEYS
   $.ajax({
     type: "PATCH",
   })
 };
 
+
+//TODO maybe move resetBoard() to .done block? 
 let signOut = function() {
+  //REQUIRES A TOKEN HEADER
+  if (!userData) {
+    throw "no user signed in"
+  }
+  debugger;
+  console.log(userData.token);
   $.ajax({
+    headers: {
+      Authorization: 'Token token=' + userData.token,
+    },
     type: "DELETE",
+    url: baseUrl + "/sign-out/" + userData.id,
+
+  }).done(function(responseData) {
+    console.log(responseData);
+
+    //remove user details from nav bar
+    $(".navbar-right").empty();
+
+    //clear userData
+    userData = undefined;
+
+  }).fail(function(jQXHR) {
+    console.log(jQXHR);
   })
-}
+};
 
 let updateGameState = function() {
   $.ajax({
     type: "POST",
   })
-}
+};
 
 
 // let signUp = function(data) {
@@ -119,5 +149,7 @@ let createGame = function() {
 module.exports = {
   signUp,
   signIn,
+  signOut,
   createGame,
+  getUserData,
 };
