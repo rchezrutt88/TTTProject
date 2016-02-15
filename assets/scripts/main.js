@@ -112,8 +112,25 @@ $("#signinForm").on('submit', function(event) {
 
 //for sign-out
 $("#signoutbtn").on('click', function(event) {
+  if (!ajaxAPI.getUserData()) {
+    throw "no user signed in"
+  }
   ajaxAPI.signOut();
   resetBoard();
+});
+
+//for change password
+//throws an odd "no element found" error...doesn't seem to affect functionality. coming from the html?
+$("#changePassForm").on('submit', function(event) {
+  event.preventDefault();
+  if (!ajaxAPI.getUserData()) {
+    throw "no user signed in"
+  }
+  // debugger;
+  let formData = new FormData(event.target);
+  ajaxAPI.changePassword(formData);
+
+
 });
 
 

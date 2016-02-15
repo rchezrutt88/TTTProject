@@ -56,22 +56,36 @@ let signIn = function(formData) {
   });
 };
 
-let changePassword = function() {
+
+//TODO add success/failure notifier
+let changePassword = function(formData) {
   //REQUIRES A TOKEN HEADER
   //REQUIRES OLD PASS AND NEW PASS KEYS
+
   $.ajax({
+    headers: {
+      Authorization: 'Token token=' + userData.token,
+    },
     type: "PATCH",
+    url: baseUrl + "/change-password/" + userData.id,
+    data: formData,
+    contentType: false,
+    processData: false,
+  }).done(function() {
+    console.log("password successfully changed")
+  }).fail(function(jQXHR) {
+    console.log(jQXHR);
+    console.alert("password change failed")
   })
 };
 
 
-//TODO maybe move resetBoard() to .done block? 
+//TODO maybe move resetBoard() to .done block?
 let signOut = function() {
   //REQUIRES A TOKEN HEADER
-  if (!userData) {
-    throw "no user signed in"
-  }
-  debugger;
+  // if (!userData) {
+  //   throw "no user signed in"
+  // }
   console.log(userData.token);
   $.ajax({
     headers: {
@@ -150,6 +164,7 @@ module.exports = {
   signUp,
   signIn,
   signOut,
+  changePassword,
   createGame,
   getUserData,
 };
