@@ -1,18 +1,18 @@
 'use strict';
 
 let gameEngine = require('./game-engine');
-let ajaxAPI = require('./ajax-interface');
 
+
+let userData;
+let gameData;
+let baseUrl = "http://tic-tac-toe.wdibos.com";
 
 //TODO perhaps move these variable inside the game object?
 let game;
 let nextPlayer;
 let currentPlayer;
-
-//storage for API objects
-let baseUrl = "http://tic-tac-toe.wdibos.com";
-let userData;
-let gameData;
+// let won;
+// let tie;
 
 //retrieves coordinates of clicked square
 let getSquareCoordinate = function(event) {
@@ -26,13 +26,14 @@ let getSquareCoordinate = function(event) {
 };
 
 //resets game board
+//TODO players should live inside the game engine?
 let resetBoard = function() {
   game = new gameEngine.Board();
+  gameData = undefined;
   $('.square').empty();
   $(".alert-box").empty();
   currentPlayer = new gameEngine.Player('X');
   nextPlayer = new gameEngine.Player('O');
-
 };
 
 //switches currently active player
@@ -42,25 +43,109 @@ let switchPlayer = function() {
   nextPlayer = tmp;
 };
 
-//with option of providing first move
-let createGameOnServer = function(moveObj) {
+let signUp = function(formData) {
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "/sign-up",
+    contentType: false,
+    processData: false,
+    data: formData,
+  }).done(function(responseData) {
+    console.log(responseData);
+  }).fail(function(jqxhr) {
+    console.error(jqxhr);
+  })
+};
+
+let signIn = function(formData) {
+
+  //TODO handle cases where user already signed in
+
+  if (userData) {
+    throw 'user already signed in';
+  }
+
+  $.ajax({
+    type: "POST",
+    url: baseUrl + '/sign-in',
+    contentType: false,
+    processData: false,
+    data: formData,
+  }).done(function(responseData) {
+    console.log(responseData);
+
+    userData = responseData.user;
+    let userEmail = responseData.user.email;
+
+    //display user email in navbar
+    $(".navbar-right").append("<li><p class='navbar-text'>Signed in as " + userEmail + "</p></li>");
+
+    //hide modal
+    $("#signinModal").modal("hide");
+
+    resetBoard();
+
+  }).fail(function(jQXHR) {
+    console.log(jQXHR);
+  });
+};
+
+
+//TODO add success/failure notifier
+let changePassword = function(formData) {
+  //REQUIRES A TOKEN HEADER
+  //REQUIRES OLD PASS AND NEW PASS KEYS
+
   $.ajax({
     headers: {
       Authorization: 'Token token=' + userData.token,
     },
-    type: "POST",
-    url: baseUrl + "/games",
+    type: "PATCH",
+    url: baseUrl + "/change-password/" + userData.id,
+    data: formData,
+    contentType: false,
+    processData: false,
+  }).done(function() {
+    console.log("password successfully changed");
+    $("#changePassModal").modal("hide");
+  }).fail(function(jQXHR) {
+    console.log(jQXHR);
+    console.error("password change failed")
+  })
+};
+
+
+//TODO maybe move resetBoard() to .done block?
+let signOut = function() {
+  //REQUIRES A TOKEN HEADER
+  // if (!userData) {
+  //   throw "no user signed in"
+  // }
+  console.log(userData.token);
+  $.ajax({
+    headers: {
+      Authorization: 'Token token=' + userData.token,
+    },
+    type: "DELETE",
+    url: baseUrl + "/sign-out/" + userData.id,
 
   }).done(function(responseData) {
     console.log(responseData);
-    gameData = responseData;
-    if(args[0]) {
-      updateGameDataOnServer(args[0]);
-    }
+
+    //remove user details from nav bar
+    $(".navbar-right").empty();
+
+    //clear userData
+    userData = undefined;
+    resetBoard();
+
+
   }).fail(function(jQXHR) {
     console.log(jQXHR);
   })
 };
+
+
 
 let updateGameDataOnServer = function(gameObj) {
 
@@ -72,11 +157,36 @@ let updateGameDataOnServer = function(gameObj) {
     url: baseUrl + "/games/" + gameData.game.id,
     data: gameObj,
 
+  }).done(function(responseData) {
+    console.log(responseData);
+  }).fail(function(jQXHR) {
+    console.log(jQXHR)
   })
 };
 
 
+let createGame = function(moveObj) {
 
+  $.ajax({
+    headers: {
+      Authorization: 'Token token=' + userData.token,
+    },
+    type: "POST",
+    url: baseUrl + "/games",
+
+  }).done(function(responseData) {
+    console.log(responseData);
+    gameData = responseData;
+    if (moveObj) {
+      updateGameDataOnServer(moveObj);
+    }
+  }).fail(function(jQXHR) {
+    console.log(jQXHR);
+  })
+};
+
+
+//MAIN FUNCTION
 $(function() {
 
   //initialize a new game object
@@ -84,121 +194,92 @@ $(function() {
 
   currentPlayer = new gameEngine.Player('X');
   nextPlayer = new gameEngine.Player('O');
-
+  // won = false;
+  // tie = false;
 
   //For clicks on the board...
   $('.square').on('click', function(event) {
 
-
-      //if game is already won or lost, throw exception and return from function
-      try {
-        if (game.won) {
-          throw currentPlayer.symbol + 'already won the game!';
-        } else if (game.tie) {
-          throw 'The game was tied!';
-        }
-      } catch (e) {
-        console.error(e);
-        return;
-      }
-
-      //retrieves coordinates of clicked square from the DOM
-      let coordinates = getSquareCoordinate(event);
-      let row = coordinates.row;
-      let col = coordinates.col;
+    //FIXME race condition here: bugs out if updateGame is called before createGame has returned...
 
 
-      //try move; if illegal, throw exception and return
-      try {
-        game.makeMove(row, col, currentPlayer);
-      } catch (e) {
-        console.error(e);
-        return;
-      }
+    let coordinates = getSquareCoordinate(event);
+    let row = coordinates.row;
+    let col = coordinates.col;
 
-      //mark the spot on the board
-      $(event.target).append("<p class='xo'>" + currentPlayer.symbol + '</p>');
+    try {
 
+      game.makeMove(row, col, currentPlayer);
 
-      //THREE CASES: no user signed in, user signed in and NOT first move, user signed in and first move
-      let moveObj = game.generateMoveObj(currentPlayer);
-      if (userData !== undefined && gameData === undefined) {
-        createGameOnServer(moveObj);
-      }
-      //user signed in, game ongoing
-      else if (userData !== undefined && gameData !== undefined) {
-
-        updateGameDataOnServer(moveObj);
-      }
-
-
-      if (won) {
-        console.log(currentPlayer.symbol + ' wins!');
-        $(".alert-box").append("<p id='alert-text'>" + currentPlayer.symbol + " wins!</p>");
-      } else if (tie) {
-        $(".alert-box").append("<p id='alert-text'>It's a tie!</p>");
-
-      } else {
-        switchPlayer();
-      }
-
-      //catches 'already clicked' exceptions from game engine and 'already won' and 'alredy tied' exceptions from inside click function
     } catch (e) {
-      console.log(e);
+      console.error(e);
+      return;
+    }
+
+    //marks the spot
+    $(event.target).append("<p class='xo'>" + currentPlayer.symbol + '</p>');
+
+    //if user signed in and game ongoing...
+    let moveObj = game.generateMoveObj(currentPlayer);
+
+    if (userData && gameData) {
+      updateGameDataOnServer(moveObj);
+    } else if (userData && !gameData) {
+      //creates game on server and patches first move
+      createGame(moveObj);
+    }
+
+    if (game.won) {
+      console.log(currentPlayer.symbol + ' wins!');
+      $(".alert-box").append("<p id='alert-text'>" + currentPlayer.symbol + " wins!</p>");
+    } else if (game.tie) {
+      $(".alert-box").append("<p id='alert-text'>It's a tie!</p>");
+
+    } else {
+      switchPlayer();
     }
 
   });
 
-//For click on reset button...
-$('#reset-button').on('click', function(event) {
-  resetBoard();
-});
+  //For click on reset button...
+  $('#reset-button').on('click', function(event) {
+    resetBoard();
+  });
 
+  //For sign-up
+  $("#signupForm").on('submit', function(event) {
+    event.preventDefault();
+    let formData = new FormData(event.target);
+    signUp(formData);
+    //let formData = new FormData(event.)
+  });
 
-//For sign-up
-$("#signupForm").on('submit', function(event) {
-  event.preventDefault();
-  let formData = new FormData(event.target);
-  ajaxAPI.signUp(formData);
-  //let formData = new FormData(event.)
-});
+  //For sign-in
+  $("#signinForm").on('submit', function(event) {
+    event.preventDefault();
+    let formData = new FormData(event.target);
+    signIn(formData);
 
-//For sign-in
-$("#signinForm").on('submit', function(event) {
-  event.preventDefault();
-  let formData = new FormData(event.target);
-  ajaxAPI.signIn(formData);
+  });
 
-});
+  //for sign-out
+  $("#signoutbtn").on('click', function(event) {
+    if (!userData) {
+      throw "no user signed in"
+    }
+    signOut();
+  });
 
-//for sign-out
-$("#signoutbtn").on('click', function(event) {
-  if (!ajaxAPI.getUserData()) {
-    throw "no user signed in"
-  }
-  ajaxAPI.signOut();
-});
-
-//for change password
-//throws an odd "no element found" error...doesn't seem to affect functionality. coming from the html?
-$("#changePassForm").on('submit', function(event) {
-  event.preventDefault();
-  if (!ajaxAPI.getUserData()) {
-    throw "no user signed in"
-  }
-  // debugger;
-  let formData = new FormData(event.target);
-  ajaxAPI.changePassword(formData);
-
-
-});
-
-
+  //for change password
+  //throws an odd "no element found" error...doesn't seem to affect functionality. coming from the html?
+  $("#changePassForm").on('submit', function(event) {
+    event.preventDefault();
+    if (!userData) {
+      throw "no user signed in"
+    }
+    // debugger;
+    let formData = new FormData(event.target);
+    changePassword(formData);
+  });
 
 });
-
-
-
-module.exports = {
-  resetBoard,
-};

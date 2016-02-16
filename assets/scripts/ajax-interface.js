@@ -1,6 +1,6 @@
 'use strict';
 
-let main = require('./main');
+
 
 let baseUrl = "http://tic-tac-toe.wdibos.com";
 // let baseUrl = "https://httpbin.org/post"
@@ -15,7 +15,7 @@ let getUserData = function() {
 
 let getGameData = function() {
   return gameData;
-}
+};
 
 
 let signUp = function(formData) {
@@ -59,8 +59,11 @@ let signIn = function(formData) {
     $("#signinModal").modal("hide");
 
     // debugger;
-    //TODO throws TypeError: main.resetBoard is not a function. What?
+    //FIXME throws TypeError: main.resetBoard is not a function. What?
+    console.log(main.resetBoard);
+    debugger;
     main.resetBoard();
+    createGame();
 
   }).fail(function(jQXHR) {
     console.log(jQXHR);
@@ -115,8 +118,9 @@ let signOut = function() {
     //clear userData
     userData = undefined;
 
-    //TODO throws TypeError: main.resetBoard is not a function. What?
-    main.resetBoard();
+    //FIXME throws TypeError: main.resetBoard is not a function. What?
+    debugger;
+    main.resetBoard;
 
   }).fail(function(jQXHR) {
     console.log(jQXHR);
@@ -124,11 +128,43 @@ let signOut = function() {
 };
 
 
-//TODO send data to API
+
+let updateGameData = function(gameObj, player) {
+
+  $.ajax({
+    headers: {
+      Authorization: 'Token token=' + userData.token,
+    },
+    type: "PATCH",
+    url: baseUrl + "/games/" + gameData.game.id,
+    data: gameObj,
+
+  }).done(function(responseData) {
+    console.log(responseData);
+  }).fail(function(jQXHR) {
+    console.log(jQXHR)
+  })
+};
 
 
 
 
+let createGame = function() {
+
+  $.ajax({
+    headers: {
+      Authorization: 'Token token=' + userData.token,
+    },
+    type: "POST",
+    url: baseUrl + "/games",
+
+  }).done(function(responseData) {
+    console.log(responseData);
+    gameData = responseData;
+  }).fail(function(jQXHR) {
+    console.log(jQXHR);
+  })
+};
 
 module.exports = {
   signUp,

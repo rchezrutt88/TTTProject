@@ -36,7 +36,7 @@ const Move = function (row, col, symbol, over) {
 
 };
 
-//generates a move object from last move;
+//generates a move object for the API from last move;
 Board.prototype.generateMoveObj = function(player) {
   let newMove = new Move(this.currentRow, this.currentCol, player.symbol.toLowerCase(), this.won || this.tie);
   return newMove;
@@ -46,6 +46,14 @@ Board.prototype.makeMove = function (row, col, player) {
 
   if(this.newGame) {
     this.newGame = false;
+  }
+
+  else if(this.won) {
+    throw player.symbol + " already won the game! Please reset"
+  }
+
+  else if(this.tie) {
+    throw "The game was tied! Please reset"
   }
 
   row = parseInt(row);
