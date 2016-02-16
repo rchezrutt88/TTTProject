@@ -125,37 +125,10 @@ let signOut = function() {
 
 
 //TODO send data to API
-let updateGameData = function(gameObj, player) {
-
-  $.ajax({
-    headers: {
-      Authorization: 'Token token=' + userData.token,
-    },
-    type: "PATCH",
-    url: baseUrl + "/games/" + gameData.game.id,
-    data: gameObj,
-
-  })
-};
 
 
 
 
-let createGame = function() {
-  $.ajax({
-    headers: {
-      Authorization: 'Token token=' + userData.token,
-    },
-    type: "POST",
-    url: baseUrl + "/games",
-
-  }).done(function(responseData) {
-    console.log(responseData);
-    gameData = responseData;
-  }).fail(function(jQXHR) {
-    console.log(jQXHR);
-  })
-};
 
 module.exports = {
   signUp,

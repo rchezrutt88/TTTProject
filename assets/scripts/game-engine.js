@@ -62,7 +62,7 @@ Board.prototype.makeMove = function (row, col, player) {
 
   //TODO this is ugly. Rationalize this so that checkBoardForWin a Board method.
   this.won = checkBoardForWin(this.ROWS, this.currentRow, this.currentCol);
-  this.tie = this.checkForTie();
+  this.tie = checkForTie(this.ROWS);
   return this.won;
 
 };
@@ -128,10 +128,10 @@ const checkBoardForWin = function (ROWS, currentRow, currentCol) {
 
 
 //TODO make smarter. check for draws.
-Board.prototype.checkForTie = function () {
+const checkForTie = function (ROWS) {
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      if (!this.ROWS[i][j]) {
+      if (!ROWS[i][j]) {
         return false;
       }
     }
