@@ -2,7 +2,14 @@
 
 const Board = function () {
 
+  this.newGame = true;
+
   this.ROWS = [];
+
+  this.won = false;
+  this.tie = false;
+
+  //TODO game object should hold current player instead of global space in main
 
   for (let i = 0; i < 3; i++) {
 
@@ -19,7 +26,27 @@ const Player = function (symbol) {
   this.symbol = symbol;
 };
 
+//move constructer for move objects to be passed to API
+//TODO restructure game to operate on this format...
+const Move = function (row, col, symbol, over) {
+
+   this.game = {cell: {index: row * 3 + col, value: symbol}};
+   this.over = over;
+
+
+};
+
+//generates a move object from last move;
+Board.prototype.generateMoveObj = function(player) {
+  let newMove = new Move(this.currentRow, this.currentCol, player.symbol.toLowerCase(), this.won || this.tie);
+  return newMove;
+};
+
 Board.prototype.makeMove = function (row, col, player) {
+
+  if(this.newGame) {
+    this.newGame = false;
+  }
 
   row = parseInt(row);
   col = parseInt(col);
@@ -32,9 +59,23 @@ Board.prototype.makeMove = function (row, col, player) {
   this.currentRow = row;
   this.currentCol = col;
 
-  return checkBoardForWin(this.ROWS, this.currentRow, this.currentCol);
+
+  //TODO this is ugly. Rationalize this so that checkBoardForWin a Board method.
+  this.won = checkBoardForWin(this.ROWS, this.currentRow, this.currentCol);
+  this.tie = this.checkForTie();
+  return this.won;
 
 };
+
+
+
+//reduces game to array to be passed to API
+Board.prototype.flatten = function() {
+  this.ROWS.reduce(function(pV, cV) {
+    return pV.concat(cV);
+  })
+};
+
 
 const checkRowForWin = function (currentRow) {
   // debugger;

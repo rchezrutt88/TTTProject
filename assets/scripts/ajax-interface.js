@@ -1,14 +1,21 @@
 'use strict';
 
+let main = require('./main');
+
 let baseUrl = "http://tic-tac-toe.wdibos.com";
 // let baseUrl = "https://httpbin.org/post"
 let contentType = "application/json";
 
 let userData;
+let gameData;
 
 let getUserData = function() {
   return userData;
 };
+
+let getGameData = function() {
+  return gameData;
+}
 
 
 let signUp = function(formData) {
@@ -51,6 +58,10 @@ let signIn = function(formData) {
     //hide modal
     $("#signinModal").modal("hide");
 
+    // debugger;
+    //TODO throws TypeError: main.resetBoard is not a function. What?
+    main.resetBoard();
+
   }).fail(function(jQXHR) {
     console.log(jQXHR);
   });
@@ -72,10 +83,11 @@ let changePassword = function(formData) {
     contentType: false,
     processData: false,
   }).done(function() {
-    console.log("password successfully changed")
+    console.log("password successfully changed");
+    $("#changePassModal").modal("hide");
   }).fail(function(jQXHR) {
     console.log(jQXHR);
-    console.alert("password change failed")
+    console.error("password change failed")
   })
 };
 
@@ -103,62 +115,47 @@ let signOut = function() {
     //clear userData
     userData = undefined;
 
+    //TODO throws TypeError: main.resetBoard is not a function. What?
+    main.resetBoard();
+
   }).fail(function(jQXHR) {
     console.log(jQXHR);
   })
 };
 
-let updateGameState = function() {
+
+//TODO send data to API
+let updateGameData = function(gameObj, player) {
+
   $.ajax({
-    type: "POST",
+    headers: {
+      Authorization: 'Token token=' + userData.token,
+    },
+    type: "PATCH",
+    url: baseUrl + "/games/" + gameData.game.id,
+    data: gameObj,
+
   })
 };
 
 
-// let signUp = function(data) {
-//   // let credentials = {credentials: $.extend({}, data[0],data[1],data[2])};
-//   // console.log(credentials);
-//   let requestData = {credentials:{}};
-//   data.forEach(function(cV) {
-//     requestData.credentials[cV.name] = cV.value;
-//     // debugger;
-//   });
-//
-//   console.log(requestData);
-//   console.log(JSON.stringify(requestData));
-//
-//   // debugger;
-//   $.ajax({
-//       type: "POST",
-//       // url: baseUrl + "/users",
-//       url: baseUrl + '/sign-up',
-//       // contentType: false,
-//       // processData: false,
-//       data: requestData,
-//       // data: requestData,
-//     }).done(function(resonseData) {
-//       console.log(resonseData);
-//       // debugger;
-//     }).fail(function(jqxhr) {
-//       console.error(jqxhr);
-//     });
-// };
-
-// $("#login").on('submit', function(e){
-//   e.preventDefault();
-//   let formData = new FormData($("#login")[0]);
-//   $.ajax({
-//     url: baseURL + '/sign-in',
-//
-//
-//   });
-// });
-
 
 
 let createGame = function() {
+  $.ajax({
+    headers: {
+      Authorization: 'Token token=' + userData.token,
+    },
+    type: "POST",
+    url: baseUrl + "/games",
 
-}
+  }).done(function(responseData) {
+    console.log(responseData);
+    gameData = responseData;
+  }).fail(function(jQXHR) {
+    console.log(jQXHR);
+  })
+};
 
 module.exports = {
   signUp,
@@ -167,4 +164,6 @@ module.exports = {
   changePassword,
   createGame,
   getUserData,
+  getGameData,
+  updateGameData,
 };

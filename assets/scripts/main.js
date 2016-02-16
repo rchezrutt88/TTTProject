@@ -3,6 +3,8 @@
 let gameEngine = require('./game-engine');
 let ajaxAPI = require('./ajax-interface');
 
+
+//TODO perhaps move these variable inside the game object?
 let game;
 let nextPlayer;
 let currentPlayer;
@@ -38,6 +40,7 @@ let switchPlayer = function() {
   nextPlayer = tmp;
 };
 
+
 $(function() {
 
   //initialize a new game object
@@ -51,7 +54,15 @@ $(function() {
   //For clicks on the board...
   $('.square').on('click', function(event) {
 
-    //ugly hacks!
+    //TODO IMPLEMENT
+    //if user signed in AND game is new, creates new game object to be passed to API
+    if (game.newGame && ajaxAPI.getUserData()) {
+      ajaxAPI.createGame();
+    };
+
+
+
+    //XXX
     if (won) {
       throw currentPlayer.symbol + ' already won the game!';
     }
@@ -66,11 +77,22 @@ $(function() {
 
     try {
 
+      debugger;
       won = game.makeMove(row, col, currentPlayer);
-      tie = game.checkForTie();
+      tie = game.tie;
 
       //marks the spot
       $(event.target).append("<p class='xo'>" + currentPlayer.symbol + '</p>');
+
+      //TODO IMPLEMENT
+      //send move to API
+      if (ajaxAPI.getUserData()) {
+
+
+        let moveObj = game.generateMoveObj(currentPlayer);
+
+        ajaxAPI.updateGameData(moveObj);
+      };
 
       if (won) {
         console.log(currentPlayer.symbol + ' wins!');
@@ -96,68 +118,47 @@ $(function() {
 
 
   //For sign-up
-$("#signupForm").on('submit', function(event) {
-  event.preventDefault();
-  let formData = new FormData(event.target);
-  ajaxAPI.signUp(formData);
-  //let formData = new FormData(event.)
-});
+  $("#signupForm").on('submit', function(event) {
+    event.preventDefault();
+    let formData = new FormData(event.target);
+    ajaxAPI.signUp(formData);
+    //let formData = new FormData(event.)
+  });
 
-//For sign-in
-$("#signinForm").on('submit', function(event) {
-  event.preventDefault();
-  let formData = new FormData(event.target);
-  ajaxAPI.signIn(formData);
-});
+  //For sign-in
+  $("#signinForm").on('submit', function(event) {
+    event.preventDefault();
+    let formData = new FormData(event.target);
+    ajaxAPI.signIn(formData);
 
-//for sign-out
-$("#signoutbtn").on('click', function(event) {
-  if (!ajaxAPI.getUserData()) {
-    throw "no user signed in"
-  }
-  ajaxAPI.signOut();
-  resetBoard();
-});
+  });
 
-//for change password
-//throws an odd "no element found" error...doesn't seem to affect functionality. coming from the html?
-$("#changePassForm").on('submit', function(event) {
-  event.preventDefault();
-  if (!ajaxAPI.getUserData()) {
-    throw "no user signed in"
-  }
-  // debugger;
-  let formData = new FormData(event.target);
-  ajaxAPI.changePassword(formData);
+  //for sign-out
+  $("#signoutbtn").on('click', function(event) {
+    if (!ajaxAPI.getUserData()) {
+      throw "no user signed in"
+    }
+    ajaxAPI.signOut();
+  });
 
-
-});
+  //for change password
+  //throws an odd "no element found" error...doesn't seem to affect functionality. coming from the html?
+  $("#changePassForm").on('submit', function(event) {
+    event.preventDefault();
+    if (!ajaxAPI.getUserData()) {
+      throw "no user signed in"
+    }
+    // debugger;
+    let formData = new FormData(event.target);
+    ajaxAPI.changePassword(formData);
 
 
-  //For click on create account
-  // $('.create-account').on('click', function(event) {
-  //
-  //   event.preventDefault();
-  //
-  //   $("#myModal").modal();
-  //   $("form").submit(function(event) {
-  //     event.preventDefault();
-  //     ajaxAPI.signUp($(this).serializeArray());
-  //   });
-  // });
+  });
 
-  //For click on login
-  //Shit still DOES NOT WORK. Won't even log to console? What the hell?
-  // $('.submit > input:nth-child(1)').on('click', function(event) {
-  //   console.log("blah blah blah");
-  //   console.log(event);
-  // });
-
-  // $("#login").on('click', function() {
-  //   let form = $(".login > form")[0];
-  //   let formData = new FormData(form);
-  //   ajax.API.signIn(formData);
-  // });
 
 
 });
+
+module.exports = {
+  resetBoard,
+};
