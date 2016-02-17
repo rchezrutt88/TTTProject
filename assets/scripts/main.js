@@ -78,7 +78,7 @@ let signIn = function(formData) {
     let userEmail = responseData.user.email;
 
     //display user email in navbar
-    $(".navbar-right").append("<li><p class='navbar-text'>Signed in as " + userEmail + "</p></li>");
+    $("#leftBar").append("<li><p class='navbar-text'>Signed in as " + userEmail + "</p></li>");
 
     //hide modal
     $("#signinModal").modal("hide");
@@ -144,7 +144,6 @@ let signOut = function() {
     console.log(jQXHR);
   })
 };
-
 
 
 let updateGameDataOnServer = function(gameObj) {
