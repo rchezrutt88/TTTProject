@@ -87,6 +87,7 @@ let signIn = function(formData) {
 
     resetBoard();
 
+
   }).fail(function(jQXHR) {
     console.log(jQXHR);
   });
