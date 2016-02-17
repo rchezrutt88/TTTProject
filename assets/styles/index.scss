@@ -34,15 +34,17 @@ body {
   width: 100%;
 }
 
-#brand{
+#brand {
   font-size: 30px;
+}
+
+#reset-button {
+  float: right;
+  font-size: 20px;
 }
 
 
 .bottom-box {
-  border-color: $border-color;
-  border-style: solid;
-  border-width: 4px;
   height: 200px;
   margin: 50px auto;
   width: 500px;
@@ -62,14 +64,14 @@ body {
   will-change: border-color;
 }
 
-#reset-button {
-  margin: auto;
-  position: relative;
-}
 
 .alert-box {
-    font-size: 30px;
-    text-align: center;
+
+}
+
+.alert-text {
+  font-size: 30px;
+  text-align: center;
 }
 
 

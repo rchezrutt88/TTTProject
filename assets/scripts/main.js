@@ -17,11 +17,13 @@ let currentPlayer;
 //retrieves coordinates of clicked square
 let getSquareCoordinate = function(event) {
 
-  let row = event.target.dataset.col;
-  let col = event.target.dataset.row;
+
+  //need delegateTarget to ensure data from .squares, not x/o's, being processed.
+  let row = event.delegateTarget.dataset.col;
+  let col = event.delegateTarget.dataset.row;
 
   // console.log(event.target.dataset);
-  return event.target.dataset;
+  return event.delegateTarget.dataset;
 
 };
 
@@ -31,7 +33,7 @@ let resetBoard = function() {
   game = new gameEngine.Board();
   gameData = undefined;
   $('.square').empty();
-  $(".alert-box").empty();
+  $(".alert-text").remove();
   currentPlayer = new gameEngine.Player('X');
   nextPlayer = new gameEngine.Player('O');
 };
@@ -230,9 +232,9 @@ $(function() {
 
     if (game.won) {
       console.log(currentPlayer.symbol + ' wins!');
-      $(".alert-box").append("<p id='alert-text'>" + currentPlayer.symbol + " wins!</p>");
+      $(".bottom-box").append("<span class='alert-text'>" + currentPlayer.symbol + " wins!</span>");
     } else if (game.tie) {
-      $(".alert-box").append("<p id='alert-text'>It's a tie!</p>");
+      $(".bottom-box").append("<span class='alert-text'>It's a tie!</span>");
 
     } else {
       switchPlayer();
