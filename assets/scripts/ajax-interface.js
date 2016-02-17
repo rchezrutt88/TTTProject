@@ -1,5 +1,7 @@
 'use strict';
 
+//DEPRECATED
+//NOT USING THIS FILE
 
 
 let baseUrl = "http://tic-tac-toe.wdibos.com";

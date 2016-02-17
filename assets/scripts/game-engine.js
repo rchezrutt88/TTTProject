@@ -31,7 +31,7 @@ const Player = function (symbol) {
 const Move = function (row, col, symbol, over) {
   debugger;
    this.game = {cell: {index: row * 3 + col, value: symbol}};
-   this.over = over;
+   this.game.over = over;
 
 
 };
