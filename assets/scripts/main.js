@@ -133,7 +133,7 @@ let signOut = function() {
     console.log(responseData);
 
     //remove user details from nav bar
-    $(".navbar-right").empty();
+    $("#leftBar").empty();
 
     //clear userData
     userData = undefined;
