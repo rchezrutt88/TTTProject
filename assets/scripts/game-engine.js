@@ -29,7 +29,7 @@ const Player = function (symbol) {
 //move constructer for move objects to be passed to API
 //TODO restructure game to operate on this format...
 const Move = function (row, col, symbol, over) {
-
+  debugger;
    this.game = {cell: {index: row * 3 + col, value: symbol}};
    this.over = over;
 
@@ -38,6 +38,7 @@ const Move = function (row, col, symbol, over) {
 
 //generates a move object for the API from last move;
 Board.prototype.generateMoveObj = function(player) {
+  debugger;
   let newMove = new Move(this.currentRow, this.currentCol, player.symbol.toLowerCase(), this.won || this.tie);
   return newMove;
 };

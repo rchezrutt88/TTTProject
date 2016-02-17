@@ -40,8 +40,6 @@ body {
 
 
 .bottom-box {
-  border-color: $border-color;
-  border-style: solid;
   border-width: 4px;
   height: 200px;
   margin: 50px auto;
@@ -62,10 +60,6 @@ body {
   will-change: border-color;
 }
 
-#reset-button {
-  margin: auto;
-  position: relative;
-}
 
 .alert-box {
     font-size: 30px;
