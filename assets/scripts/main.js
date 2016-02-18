@@ -87,6 +87,7 @@ let signIn = function(formData) {
 
     resetBoard();
 
+
   }).fail(function(jQXHR) {
     console.log(jQXHR);
   });
@@ -186,6 +187,23 @@ let createGame = function(moveObj) {
   })
 };
 
+let getGamesOnServer = function() {
+
+  $.ajax({
+      headers: {
+        Authorization: 'Token token=' + userData.token,
+    },
+    type: "GET",
+    url: baseUrl + "/games",
+  }).done(function(responseData) {
+    console.log(responseData);
+    return(responseData);
+  }).fail(function(jQXHR) {
+    console.log(jQXHR)
+  })
+};
+
+
 
 //MAIN FUNCTION
 $(function() {
@@ -269,6 +287,15 @@ $(function() {
       throw "no user signed in"
     }
     signOut();
+  });
+
+  $("#printGames").on('click', function(event) {
+    if (!userData) {
+      throw "no user signed in"
+    }
+    let games = getGamesOnServer();
+    console.log(games);
+
   });
 
   //for change password
