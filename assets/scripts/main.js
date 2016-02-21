@@ -56,7 +56,7 @@ let signUp = function(formData) {
     console.log(responseData);
   }).fail(function(jqxhr) {
     console.error(jqxhr);
-  })
+  });
 };
 
 let signIn = function(formData) {
@@ -113,8 +113,8 @@ let changePassword = function(formData) {
     $("#changePassModal").modal("hide");
   }).fail(function(jQXHR) {
     console.log(jQXHR);
-    console.error("password change failed")
-  })
+    console.error("password change failed");
+  });
 };
 
 
@@ -145,7 +145,7 @@ let signOut = function() {
 
   }).fail(function(jQXHR) {
     console.log(jQXHR);
-  })
+  });
 };
 
 
@@ -162,8 +162,8 @@ let updateGameDataOnServer = function(gameObj) {
   }).done(function(responseData) {
     console.log(responseData);
   }).fail(function(jQXHR) {
-    console.log(jQXHR)
-  })
+    console.log(jQXHR);
+  });
 };
 
 
@@ -184,23 +184,23 @@ let createGame = function(moveObj) {
     }
   }).fail(function(jQXHR) {
     console.log(jQXHR);
-  })
+  });
 };
 
 let getGamesOnServer = function() {
 
   $.ajax({
-      headers: {
-        Authorization: 'Token token=' + userData.token,
+    headers: {
+      Authorization: 'Token token=' + userData.token,
     },
     type: "GET",
     url: baseUrl + "/games",
   }).done(function(responseData) {
     console.log(responseData);
-    return(responseData);
+    return (responseData);
   }).fail(function(jQXHR) {
-    console.log(jQXHR)
-  })
+    console.log(jQXHR);
+  });
 };
 
 
@@ -261,7 +261,7 @@ $(function() {
   });
 
   //For click on reset button...
-  $('#reset-button').on('click', function(event) {
+  $('#reset-button').on('click', function() {
     resetBoard();
   });
 
@@ -282,16 +282,16 @@ $(function() {
   });
 
   //for sign-out
-  $("#signoutbtn").on('click', function(event) {
+  $("#signoutbtn").on('click', function() {
     if (!userData) {
-      throw "no user signed in"
+      throw "no user signed in";
     }
     signOut();
   });
 
-  $("#printGames").on('click', function(event) {
+  $("#printGames").on('click', function() {
     if (!userData) {
-      throw "no user signed in"
+      throw "no user signed in";
     }
     let games = getGamesOnServer();
     console.log(games);
@@ -303,9 +303,8 @@ $(function() {
   $("#changePassForm").on('submit', function(event) {
     event.preventDefault();
     if (!userData) {
-      throw "no user signed in"
+      throw "no user signed in";
     }
-    // debugger;
     let formData = new FormData(event.target);
     changePassword(formData);
   });

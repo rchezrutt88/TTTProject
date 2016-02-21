@@ -60,7 +60,7 @@
 //     //hide modal
 //     $("#signinModal").modal("hide");
 //
-//     // debugger;
+//     //;
 //     //FIXME throws TypeError: main.resetBoard is not a function. What?
 //     console.log(main.resetBoard);
 //     debugger;
