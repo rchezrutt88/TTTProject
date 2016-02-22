@@ -17,11 +17,6 @@ let currentPlayer;
 //retrieves coordinates of clicked square
 let getSquareCoordinate = function(event) {
 
-
-  //need delegateTarget to ensure data from .squares, not x/o's, being processed.
-  let row = event.delegateTarget.dataset.col;
-  let col = event.delegateTarget.dataset.row;
-
   // console.log(event.target.dataset);
   return event.delegateTarget.dataset;
 
@@ -56,6 +51,27 @@ let signUp = function(formData) {
     console.log(responseData);
   }).fail(function(jqxhr) {
     console.error(jqxhr);
+  });
+};
+
+let printGameTotal = function(count) {
+  $("#gamesPlayed").remove();
+  $("#leftBar").append("<li><p class='navbar-text' id='gamesPlayed'>Games played: " + count + "</p></li>");
+};
+
+let getGamesOnServer = function() {
+
+  $.ajax({
+      headers: {
+        Authorization: 'Token token=' + userData.token,
+    },
+    type: "GET",
+    url: baseUrl + "/games",
+  }).done(function(responseData) {
+    console.log(responseData);
+    printGameTotal(responseData.games.length);
+  }).fail(function(jQXHR) {
+    console.log(jQXHR);
   });
 };
 
@@ -193,26 +209,6 @@ let createGame = function(moveObj) {
   });
 };
 
-let getGamesOnServer = function() {
-
-  $.ajax({
-    headers: {
-      Authorization: 'Token token=' + userData.token,
-    },
-    type: "GET",
-    url: baseUrl + "/games",
-  }).done(function(responseData) {
-    console.log(responseData);
-    printGameTotal(responseData.games.length);
-  }).fail(function(jQXHR) {
-    console.log(jQXHR);
-  });
-};
-
-let printGameTotal = function(count) {
-  $("#gamesPlayed").remove();
-  $("#leftBar").append("<li><p class='navbar-text' id='gamesPlayed'>Games played: " + count + "</p></li>");
-};
 
 
 
@@ -298,14 +294,6 @@ $(function() {
       throw "no user signed in";
     }
     signOut();
-  });
-
-  $("#printGames").on('click', function() {
-    if (!userData) {
-      throw "no user signed in";
-    }
-    getGamesOnServer();
-
   });
 
   //for change password
