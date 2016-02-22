@@ -82,6 +82,9 @@ let signIn = function(formData) {
     //display user email in navbar
     $("#leftBar").append("<li><p class='navbar-text'>Signed in as " + userEmail + "</p></li>");
 
+    //append games played
+    getGamesOnServer();
+
     //hide modal
     $("#signinModal").modal("hide");
 
@@ -161,6 +164,9 @@ let updateGameDataOnServer = function(gameObj) {
 
   }).done(function(responseData) {
     console.log(responseData);
+    if(gameObj.game.over) {
+      getGamesOnServer();
+    }
   }).fail(function(jQXHR) {
     console.log(jQXHR)
   })
@@ -197,10 +203,15 @@ let getGamesOnServer = function() {
     url: baseUrl + "/games",
   }).done(function(responseData) {
     console.log(responseData);
-    return(responseData);
+    printGameTotal(responseData.games.length);
   }).fail(function(jQXHR) {
     console.log(jQXHR)
   })
+};
+
+let printGameTotal = function(count) {
+  $("#gamesPlayed").remove();
+  $("#leftBar").append("<li><p class='navbar-text' id='gamesPlayed'>Games played: " + count + "</p></li>");
 };
 
 
@@ -293,8 +304,7 @@ $(function() {
     if (!userData) {
       throw "no user signed in"
     }
-    let games = getGamesOnServer();
-    console.log(games);
+    getGamesOnServer();
 
   });
 
