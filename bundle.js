@@ -44,6 +44,66 @@ webpackJsonp([0],[
 
 	'use strict';
 
+	var checkIfLegal = function checkIfLegal(val) {
+	  if (val) {
+	    throw 'Cell not empty';
+	  }
+	};
+
+	var areEqual = function areEqual() {
+	  var len = arguments.length;
+	  for (var i = 1; i < len; i++) {
+	    if (arguments[i] === undefined || arguments[i] !== arguments[i - 1]) {
+	      return false;
+	    }
+	  }
+
+	  return true;
+	};
+
+	var arrayIsEqual = function arrayIsEqual(array) {
+	  for (var i = 1; i < array.length; i++) {
+	    if (array[i] === undefined || array[i] !== array[i - 1]) {
+	      return false;
+	    }
+	  }
+
+	  return true;
+	};
+
+	var checkRowForWin = function checkRowForWin(currentRow) {
+	  // debugger;
+	  return arrayIsEqual(currentRow);
+	};
+
+	var checkColumnForWin = function checkColumnForWin(currentCol) {
+	  // debugger;
+	  return arrayIsEqual(currentCol);
+	};
+
+	var checkDiagonalForWin = function checkDiagonalForWin(ROWS, currentRow, currentCol) {
+
+	  return currentRow === currentCol && areEqual(ROWS[0][0], ROWS[1][1], ROWS[2][2]) || currentRow + currentCol === 2 && areEqual(ROWS[0][2], ROWS[1][1], ROWS[2][0]);
+	};
+
+	var checkBoardForWin = function checkBoardForWin(ROWS, currentRow, currentCol) {
+
+	  return checkRowForWin(ROWS[currentRow]) || checkColumnForWin([ROWS[0][currentCol], ROWS[1][currentCol], ROWS[2][currentCol]]) || checkDiagonalForWin(ROWS, currentRow, currentCol);
+	};
+
+	//TODO make smarter. check for draws.
+	var checkForTie = function checkForTie(ROWS) {
+	  for (var i = 0; i < 3; i++) {
+	    for (var j = 0; j < 3; j++) {
+	      if (!ROWS[i][j]) {
+	        return false;
+	      }
+	    }
+	  }
+
+	  return true;
+	};
+
 	var Board = function Board() {
 
 	  this.newGame = true;
@@ -73,19 +133,12 @@ webpackJsonp([0],[
 	//move constructer for move objects to be passed to API
 	//TODO restructure game to operate on this format...
 	var Move = function Move(row, col, symbol, over) {
-
-	  this.game = {
-	    cell: {
-	      index: row * 3 + col,
-	      value: symbol
-	    }
-	  };
+	  this.game = { cell: { index: row * 3 + col, value: symbol } };
 	  this.game.over = over;
 	};
 
 	//generates a move object for the API from last move;
 	Board.prototype.generateMoveObj = function (player) {
-
 	  var newMove = new Move(this.currentRow, this.currentCol, player.symbol.toLowerCase(), this.won || this.tie);
 	  return newMove;
 	};
@@ -124,66 +177,6 @@ webpackJsonp([0],[
 	  });
 	};
 
-	var checkRowForWin = function checkRowForWin(currentRow) {
-	  //
-	  return arrayIsEqual(currentRow);
-	};
-
-	var checkColumnForWin = function checkColumnForWin(currentCol) {
-	  //
-	  return arrayIsEqual(currentCol);
-	};
-
-	var checkDiagonalForWin = function checkDiagonalForWin(ROWS, currentRow, currentCol) {
-
-	  return currentRow === currentCol && areEqual(ROWS[0][0], ROWS[1][1], ROWS[2][2]) || currentRow + currentCol === 2 && areEqual(ROWS[0][2], ROWS[1][1], ROWS[2][0]);
-	};
-
-	var checkIfLegal = function checkIfLegal(val) {
-	  if (val) {
-	    throw 'Cell not empty';
-	  }
-	};
-
-	var areEqual = function areEqual() {
-	  var len = arguments.length;
-	  for (var i = 1; i < len; i++) {
-	    if (arguments[i] === undefined || arguments[i] !== arguments[i - 1]) {
-	      return false;
-	    }
-	  }
-
-	  return true;
-	};
-
-	var arrayIsEqual = function arrayIsEqual(array) {
-	  for (var i = 1; i < array.length; i++) {
-	    if (array[i] === undefined || array[i] !== array[i - 1]) {
-	      return false;
-	    }
-	  }
-
-	  return true;
-	};
-
-	var checkBoardForWin = function checkBoardForWin(ROWS, currentRow, currentCol) {
-
-	  return checkRowForWin(ROWS[currentRow]) || checkColumnForWin([ROWS[0][currentCol], ROWS[1][currentCol], ROWS[2][currentCol]]) || checkDiagonalForWin(ROWS, currentRow, currentCol);
-	};
-
-	//TODO make smarter. check for draws.
-	var checkForTie = function checkForTie(ROWS) {
-	  for (var i = 0; i < 3; i++) {
-	    for (var j = 0; j < 3; j++) {
-	      if (!ROWS[i][j]) {
-	        return false;
-	      }
-	    }
-	  }
-
-	  return true;
-	};
-
 	module.exports = {
 	  Board: Board,
 	  Player: Player
@@ -210,10 +203,6 @@ webpackJsonp([0],[
 
 	//retrieves coordinates of clicked square
 	var getSquareCoordinate = function getSquareCoordinate(event) {
-
-	  //need delegateTarget to ensure data from .squares, not x/o's, being processed.
-	  var row = event.delegateTarget.dataset.col;
-	  var col = event.delegateTarget.dataset.row;
 
 	  // console.log(event.target.dataset);
 	  return event.delegateTarget.dataset;
@@ -248,6 +237,27 @@ webpackJsonp([0],[
 	    console.log(responseData);
 	  }).fail(function (jqxhr) {
 	    console.error(jqxhr);
+	  });
+	};
+
+	var printGameTotal = function printGameTotal(count) {
+	  $("#gamesPlayed").remove();
+	  $("#leftBar").append("<li><p class='navbar-text' id='gamesPlayed'>Games played: " + count + "</p></li>");
+	};
+
+	var getGamesOnServer = function getGamesOnServer() {
+
+	  $.ajax({
+	    headers: {
+	      Authorization: 'Token token=' + userData.token
+	    },
+	    type: "GET",
+	    url: baseUrl + "/games"
+	  }).done(function (responseData) {
+	    console.log(responseData);
+	    printGameTotal(responseData.games.length);
+	  }).fail(function (jQXHR) {
+	    console.log(jQXHR);
 	  });
 	};
 
@@ -377,27 +387,6 @@ webpackJsonp([0],[
 	  });
 	};
 
-	var getGamesOnServer = function getGamesOnServer() {
-
-	  $.ajax({
-	    headers: {
-	      Authorization: 'Token token=' + userData.token
-	    },
-	    type: "GET",
-	    url: baseUrl + "/games"
-	  }).done(function (responseData) {
-	    console.log(responseData);
-	    printGameTotal(responseData.games.length);
-	  }).fail(function (jQXHR) {
-	    console.log(jQXHR);
-	  });
-	};
-
-	var printGameTotal = function printGameTotal(count) {
-	  $("#gamesPlayed").remove();
-	  $("#leftBar").append("<li><p class='navbar-text' id='gamesPlayed'>Games played: " + count + "</p></li>");
-	};
-
 	//MAIN FUNCTION
 	$(function () {
 
@@ -475,13 +464,6 @@ webpackJsonp([0],[
 	      throw "no user signed in";
 	    }
 	    signOut();
-	  });
-
-	  $("#printGames").on('click', function () {
-	    if (!userData) {
-	      throw "no user signed in";
-	    }
-	    getGamesOnServer();
 	  });
 
 	  //for change password
