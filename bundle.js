@@ -73,14 +73,19 @@ webpackJsonp([0],[
 	//move constructer for move objects to be passed to API
 	//TODO restructure game to operate on this format...
 	var Move = function Move(row, col, symbol, over) {
-	  debugger;
-	  this.game = { cell: { index: row * 3 + col, value: symbol } };
+
+	  this.game = {
+	    cell: {
+	      index: row * 3 + col,
+	      value: symbol
+	    }
+	  };
 	  this.game.over = over;
 	};
 
 	//generates a move object for the API from last move;
 	Board.prototype.generateMoveObj = function (player) {
-	  debugger;
+
 	  var newMove = new Move(this.currentRow, this.currentCol, player.symbol.toLowerCase(), this.won || this.tie);
 	  return newMove;
 	};
@@ -120,12 +125,12 @@ webpackJsonp([0],[
 	};
 
 	var checkRowForWin = function checkRowForWin(currentRow) {
-	  // debugger;
+	  //
 	  return arrayIsEqual(currentRow);
 	};
 
 	var checkColumnForWin = function checkColumnForWin(currentCol) {
-	  // debugger;
+	  //
 	  return arrayIsEqual(currentCol);
 	};
 
@@ -180,7 +185,8 @@ webpackJsonp([0],[
 	};
 
 	module.exports = {
-	  Board: Board, Player: Player
+	  Board: Board,
+	  Player: Player
 	};
 
 /***/ },
@@ -268,6 +274,9 @@ webpackJsonp([0],[
 	    //display user email in navbar
 	    $("#leftBar").append("<li><p class='navbar-text'>Signed in as " + userEmail + "</p></li>");
 
+	    //append games played
+	    getGamesOnServer();
+
 	    //hide modal
 	    $("#signinModal").modal("hide");
 
@@ -340,6 +349,9 @@ webpackJsonp([0],[
 
 	  }).done(function (responseData) {
 	    console.log(responseData);
+	    if (gameObj.game.over) {
+	      getGamesOnServer();
+	    }
 	  }).fail(function (jQXHR) {
 	    console.log(jQXHR);
 	  });
@@ -375,10 +387,15 @@ webpackJsonp([0],[
 	    url: baseUrl + "/games"
 	  }).done(function (responseData) {
 	    console.log(responseData);
-	    return responseData;
+	    printGameTotal(responseData.games.length);
 	  }).fail(function (jQXHR) {
 	    console.log(jQXHR);
 	  });
+	};
+
+	var printGameTotal = function printGameTotal(count) {
+	  $("#gamesPlayed").remove();
+	  $("#leftBar").append("<li><p class='navbar-text' id='gamesPlayed'>Games played: " + count + "</p></li>");
 	};
 
 	//MAIN FUNCTION
@@ -433,7 +450,7 @@ webpackJsonp([0],[
 	  });
 
 	  //For click on reset button...
-	  $('#reset-button').on('click', function (event) {
+	  $('#reset-button').on('click', function () {
 	    resetBoard();
 	  });
 
@@ -453,19 +470,18 @@ webpackJsonp([0],[
 	  });
 
 	  //for sign-out
-	  $("#signoutbtn").on('click', function (event) {
+	  $("#signoutbtn").on('click', function () {
 	    if (!userData) {
 	      throw "no user signed in";
 	    }
 	    signOut();
 	  });
 
-	  $("#printGames").on('click', function (event) {
+	  $("#printGames").on('click', function () {
 	    if (!userData) {
 	      throw "no user signed in";
 	    }
-	    var games = getGamesOnServer();
-	    console.log(games);
+	    getGamesOnServer();
 	  });
 
 	  //for change password
@@ -475,7 +491,6 @@ webpackJsonp([0],[
 	    if (!userData) {
 	      throw "no user signed in";
 	    }
-	    // debugger;
 	    var formData = new FormData(event.target);
 	    changePassword(formData);
 	  });
